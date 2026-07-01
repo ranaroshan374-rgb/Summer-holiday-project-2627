@@ -1,0 +1,115 @@
+# ──────────────── HELPERS ────────────────
+
+    def _get_student(self):
+        try:
+            sid = int(input("Enter Student ID: "))
+        except ValueError:
+            print("Invalid ID! ❌")
+            return None
+        s = self.students.get(sid)
+        if not s:
+            print("Student not found! ❌")
+        return s
+
+    def _log(self, message):
+        ts = datetime.now().strftime("%H:%M:%S")
+        self.log.append(f"[{ts}] {message}")
+
+
+# ─────────────────────────────────────────
+#              MAIN MENU
+# ─────────────────────────────────────────
+
+def main():
+    school_name = input("Enter school name: ").strip() or "Smart School"
+    system      = SmartSchoolSystem(school_name)
+
+    student_menu = {
+        '1':  system.add_student,
+        '2':  system.display_all_students,
+        '3':  system.search_student,
+        '4':  system.update_student,
+        '5':  system.delete_student,
+    }
+
+    marks_menu = {
+        '6':  system.enter_marks,
+        '7':  system.view_marks,
+        '8':  system.class_topper,
+    }
+
+    attendance_menu = {
+        '9':  system.mark_attendance,
+        '10': system.view_attendance,
+        '11': system.low_attendance_report,
+    }
+
+    fees_menu = {
+        '12': system.mark_fees,
+        '13': system.fees_report,
+    }
+
+    teacher_menu = {
+        '14': system.add_teacher,
+        '15': system.display_all_teachers,
+    }
+
+    notice_menu = {
+        '16': system.post_notice,
+        '17': system.view_notices,
+    }
+
+    remark_menu = {
+        '18': system.add_remark,
+        '19': system.view_remarks,
+    }
+
+    report_menu = {
+        '20': system.school_statistics,
+        '21': system.view_log,
+    }
+
+    all_actions = {**student_menu, **marks_menu,
+                   **attendance_menu, **fees_menu,
+                   **teacher_menu, **notice_menu,
+                   **remark_menu, **report_menu}
+
+    while True:
+        print(f"\n╔══════════════════════════════════╗")
+        print(f"║  🏫 {school_name:<28}║")
+        print(f"╚══════════════════════════════════╝")
+        print("─── Student Management ───")
+        print(" 1. Add Student         2. Display All Students")
+        print(" 3. Search Student      4. Update Student")
+        print(" 5. Delete Student")
+        print("─── Marks Management ───")
+        print(" 6. Enter Marks         7. View Report Card")
+        print(" 8. Class Topper")
+        print("─── Attendance ───")
+        print(" 9. Mark Attendance    10. View Attendance")
+        print("11. Low Attendance Report")
+        print("─── Fees ───")
+        print("12. Mark Fees Paid     13. Fees Report")
+        print("─── Teacher Management ───")
+        print("14. Add Teacher        15. Display Teachers")
+        print("─── Notice Board ───")
+        print("16. Post Notice        17. View Notices")
+        print("─── Remarks ───")
+        print("18. Add Remark         19. View Remarks")
+        print("─── Reports ───")
+        print("20. School Statistics  21. Activity Log")
+        print("22. Exit")
+
+        choice = input("\nEnter choice (1-22): ").strip()
+
+        if choice == '22':
+            print(f"Thank you! Goodbye from {school_name}! 🏫")
+            break
+        elif choice in all_actions:
+            all_actions[choice]()
+        else:
+            print("Invalid choice! Try again.")
+
+
+if __name__ == "__main__":
+    main()
